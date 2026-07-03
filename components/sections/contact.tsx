@@ -1,0 +1,216 @@
+"use client";
+
+import { Section } from "@/components/ui/section";
+import { Button } from "@/components/ui/button";
+import { MapPin, Phone, Mail, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { useState, FormEvent } from "react";
+
+export function Contact() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+    const [errorMessage, setErrorMessage] = useState("");
+
+    async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        setIsLoading(true);
+        setStatus("idle");
+        setErrorMessage("");
+
+        const form = e.currentTarget;
+
+        try {
+            // Dynamically load EmailJS from CDN if not already loaded
+            const loadEmailJS = () => {
+                return new Promise<any>((resolve, reject) => {
+                    if ((window as any).emailjs) {
+                        resolve((window as any).emailjs);
+                        return;
+                    }
+                    const script = document.createElement("script");
+                    script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
+                    script.async = true;
+                    script.onload = () => {
+                        if ((window as any).emailjs) {
+                            resolve((window as any).emailjs);
+                        } else {
+                            reject(new Error("EmailJS failed to initialize from CDN."));
+                        }
+                    };
+                    script.onerror = () => reject(new Error("Failed to load EmailJS from CDN."));
+                    document.head.appendChild(script);
+                });
+            };
+
+            const emailjs = await loadEmailJS();
+
+            const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+            const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+            const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+            if (!serviceID || !templateID || !publicKey) {
+                throw new Error("EmailJS configuration keys are missing in the environment variables.");
+            }
+
+            const response = await emailjs.sendForm(serviceID, templateID, form, publicKey);
+
+            if (response.status !== 200) {
+                throw new Error(response.text || "Failed to send email");
+            }
+
+            setStatus("success");
+            form.reset();
+        } catch (error) {
+            console.error("Submission error:", error);
+            setStatus("error");
+            setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return (
+        <Section id="contact" className="bg-slate-50">
+            <div className="container">
+                <div className="text-center max-w-2xl mx-auto mb-16">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-4">Get In Touch</h2>
+                    <p className="text-slate-600">
+                        Have a project in mind or need a quote? Contact our team today and let's build something great together.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+                    {/* Contact Info & Map */}
+                    <div className="space-y-8">
+                        <div className="grid gap-6">
+                            <div className="flex items-start gap-4">
+                                <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                                    <MapPin className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-slate-900">Our Office</h3>
+                                    <p className="text-slate-600 mt-1">
+                                        P NO 6, Muniyandi Kovil Street,<br />
+                                        Kulamangalam Main Road,<br />
+                                        Alangulam, Madurai<br />
+                                        Tamil Nadu
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-start gap-4">
+                                <div className="h-10 w-10 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+                                    <Phone className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-slate-900">Phone</h3>
+                                    <p className="text-slate-600 mt-1">+91 7708235555</p>
+                                    <p className="text-slate-500 text-sm">Mon-Fri from 9am to 6pm</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-start gap-4">
+                                <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                                    <Mail className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-slate-900">Email</h3>
+                                    <p className="text-slate-600 mt-1">ksjenterprises16@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Google Compass Map Embed Placeholder */}
+                        <div className="w-full h-64 bg-slate-200 rounded-xl overflow-hidden border border-slate-300 relative">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.049868782354!2d77.378!3d28.628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce55555555555%3A0x5555555555555555!2sNoida!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin"
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen={true}
+                                loading="lazy"
+                                className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-500 opacity-80 hover:opacity-100"
+                            ></iframe>
+                        </div>
+                    </div>
+
+                    {/* Contact Form */}
+                    <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label htmlFor="name" className="text-sm font-medium text-slate-700">Name</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        id="name"
+                                        required
+                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        placeholder="John Doe"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label htmlFor="phone" className="text-sm font-medium text-slate-700">Phone</label>
+                                    <input
+                                        type="tel"
+                                        name="phone"
+                                        id="phone"
+                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        placeholder="+91 98765 43210"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label htmlFor="email" className="text-sm font-medium text-slate-700">Email</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    required
+                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    placeholder="john@example.com"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label htmlFor="message" className="text-sm font-medium text-slate-700">Message</label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    required
+                                    className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    placeholder="Tell us about your requirements..."
+                                ></textarea>
+                            </div>
+
+                            {status === "error" && (
+                                <div className="p-3 bg-red-50 text-red-600 text-sm rounded-md flex items-center gap-2">
+                                    <AlertCircle className="h-4 w-4" />
+                                    {errorMessage}
+                                </div>
+                            )}
+
+                            {status === "success" && (
+                                <div className="p-3 bg-emerald-50 text-emerald-600 text-sm rounded-md flex items-center gap-2">
+                                    <CheckCircle2 className="h-4 w-4" />
+                                    Message sent successfully! We'll get back to you soon.
+                                </div>
+                            )}
+
+                            <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+                                {isLoading ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Sending...
+                                    </>
+                                ) : (
+                                    "Send Message"
+                                )}
+                            </Button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </Section>
+    );
+}
