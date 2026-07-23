@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "A leading provider of high-quality industrial and business solutions. We deliver excellence and trust.",
   icons: {
     icon: "/images/ksj-logo.png",
+    shortcut: "/images/ksj-logo.png",
+    apple: "/images/ksj-logo.png",
   },
 };
 
