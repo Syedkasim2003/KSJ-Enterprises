@@ -49,15 +49,17 @@ export function Footer() {
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start gap-3">
                                 <MapPin className="h-5 w-5 text-emerald-500 shrink-0" />
-                                <span>123 Business Park, Industrial Area, City Name, State - 110001</span>
+                                <span>S Alangulam, Madurai</span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <Phone className="h-5 w-5 text-emerald-500 shrink-0" />
-                                <span>+91 98765 43210</span>
+                                <span>+91 7708235555</span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <Mail className="h-5 w-5 text-emerald-500 shrink-0" />
-                                <span>info@ksjenterprises.com</span>
+                                <a href="mailto:Ksjenterprises16@gmail.com" className="hover:text-white transition-colors">
+                                    Ksjenterprises16@gmail.com
+                                </a>
                             </li>
                         </ul>
 

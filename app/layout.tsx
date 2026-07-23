@@ -6,8 +6,11 @@ const inter = { variable: "font-sans" };
 const jakarta = { variable: "font-sans" };
 
 export const metadata: Metadata = {
-  title: "KSJ Enterprises | Professional Business & Industrial Solutions",
+  title: "KSJ Enterprises",
   description: "A leading provider of high-quality industrial and business solutions. We deliver excellence and trust.",
+  icons: {
+    icon: "/images/ksj-logo.png",
+  },
 };
 
 import { Navbar } from "@/components/layout/navbar";

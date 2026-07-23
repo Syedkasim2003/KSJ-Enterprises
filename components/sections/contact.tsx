@@ -100,10 +100,9 @@ export function Contact() {
                                 <div>
                                     <h3 className="font-semibold text-slate-900">Our Office</h3>
                                     <p className="text-slate-600 mt-1">
-                                        P NO 6, Muniyandi Kovil Street,<br />
-                                        Kulamangalam Main Road,<br />
-                                        Alangulam, Madurai<br />
-                                        Tamil Nadu
+                                        Ksj enterprises, X449+GJJ, MDR947,<br />
+                                        S Alangulam, Madurai,<br />
+                                        Tamil Nadu 625017
                                     </p>
                                 </div>
                             </div>
@@ -125,23 +124,35 @@ export function Contact() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-slate-900">Email</h3>
-                                    <p className="text-slate-600 mt-1">ksjenterprises16@gmail.com</p>
+                                    <p className="text-slate-600 mt-1">Ksjenterprises16@gmail.com</p>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Google Compass Map Embed Placeholder */}
-                        <div className="w-full h-64 bg-slate-200 rounded-xl overflow-hidden border border-slate-300 relative">
+                        {/* Google Maps Location Redirect Card */}
+                        <a
+                            href="https://www.google.com/maps/search/?api=1&query=Ksj+enterprises,+X449%2BGJJ,+MDR947,+S+Alangulam,+Madurai,+Tamil+Nadu+625017"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full h-64 bg-slate-200 rounded-xl overflow-hidden border border-slate-300 relative group cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+                            title="Click to open location in Google Maps"
+                        >
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.049868782354!2d77.378!3d28.628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce55555555555%3A0x5555555555555555!2sNoida!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin"
+                                src="https://maps.google.com/maps?q=9.9664,78.1311&z=15&output=embed"
                                 width="100%"
                                 height="100%"
-                                style={{ border: 0 }}
+                                style={{ border: 0, pointerEvents: "none" }}
                                 allowFullScreen={true}
                                 loading="lazy"
-                                className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-500 opacity-80 hover:opacity-100"
+                                className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-500 opacity-85 group-hover:opacity-100"
                             ></iframe>
-                        </div>
+                            <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center">
+                                <span className="bg-slate-900/90 text-white text-xs px-3.5 py-2 rounded-full font-medium shadow-lg backdrop-blur-sm group-hover:scale-105 transition-transform flex items-center gap-2">
+                                    <MapPin className="h-4 w-4 text-emerald-400" />
+                                    Open in Google Maps
+                                </span>
+                            </div>
+                        </a>
                     </div>
 
                     {/* Contact Form */}

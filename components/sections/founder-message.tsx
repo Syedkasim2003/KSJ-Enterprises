@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const MESSAGES = [
     {
-        name: "MJF Lion K. Syed Jafar",
+        name: "MJF Lion Dr.K.Syed Jafar",
         title: "Founder & CEO",
         organization: "KSJ Groups, Madurai",
         message: "Our mission is simple: to deliver excellence in everything we do. We don't just sell products; we build partnerships that empower businesses to thrive in a competitive world.",
