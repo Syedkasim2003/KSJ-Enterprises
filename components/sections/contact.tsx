@@ -45,16 +45,27 @@ export function Contact() {
 
             const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
             const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+            const autoReplyTemplateID = process.env.NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID;
             const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
             if (!serviceID || !templateID || !publicKey) {
                 throw new Error("EmailJS configuration keys are missing in the environment variables.");
             }
 
+            // 1. Send notification email to Admin (You)
             const response = await emailjs.sendForm(serviceID, templateID, form, publicKey);
 
             if (response.status !== 200) {
                 throw new Error(response.text || "Failed to send email");
+            }
+
+            // 2. Send confirmation auto-reply email to Visitor (Them)
+            if (autoReplyTemplateID) {
+                try {
+                    await emailjs.sendForm(serviceID, autoReplyTemplateID, form, publicKey);
+                } catch (autoReplyErr) {
+                    console.warn("Auto-reply email failed to send:", autoReplyErr);
+                }
             }
 
             setStatus("success");
