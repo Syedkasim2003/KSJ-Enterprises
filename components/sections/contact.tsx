@@ -19,6 +19,40 @@ export function Contact() {
         const form = e.currentTarget;
 
         try {
+            const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+            const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+            const autoReplyTemplateID = process.env.NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID;
+            const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+            const isConfigured = 
+                serviceID && 
+                templateID && 
+                publicKey && 
+                !serviceID.includes("your_") && 
+                !templateID.includes("your_") && 
+                !publicKey.includes("your_");
+
+            if (!isConfigured) {
+                console.warn("EmailJS keys missing or placeholder in env. Using direct email fallback.");
+                
+                const formData = new FormData(form);
+                const name = formData.get("name") as string;
+                const phone = formData.get("phone") as string;
+                const email = formData.get("email") as string;
+                const message = formData.get("message") as string;
+
+                const mailtoSubject = encodeURIComponent(`Contact Inquiry from ${name}`);
+                const mailtoBody = encodeURIComponent(
+                    `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\n\nMessage:\n${message}`
+                );
+
+                window.location.href = `mailto:Ksjenterprises16@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+                
+                setStatus("success");
+                form.reset();
+                return;
+            }
+
             // Dynamically load EmailJS from CDN if not already loaded
             const loadEmailJS = () => {
                 return new Promise<any>((resolve, reject) => {
@@ -33,24 +67,15 @@ export function Contact() {
                         if ((window as any).emailjs) {
                             resolve((window as any).emailjs);
                         } else {
-                            reject(new Error("EmailJS failed to initialize from CDN."));
+                            reject(new Error("EmailJS failed to initialize. Please check your internet connection."));
                         }
                     };
-                    script.onerror = () => reject(new Error("Failed to load EmailJS from CDN."));
+                    script.onerror = () => reject(new Error("Failed to load email service script."));
                     document.head.appendChild(script);
                 });
             };
 
             const emailjs = await loadEmailJS();
-
-            const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-            const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-            const autoReplyTemplateID = process.env.NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID;
-            const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-            if (!serviceID || !templateID || !publicKey) {
-                throw new Error("EmailJS configuration keys are missing in the environment variables.");
-            }
 
             // 1. Send notification email to Admin (You)
             const response = await emailjs.sendForm(serviceID, templateID, form, publicKey);
@@ -60,7 +85,7 @@ export function Contact() {
             }
 
             // 2. Send confirmation auto-reply email to Visitor (Them)
-            if (autoReplyTemplateID) {
+            if (autoReplyTemplateID && !autoReplyTemplateID.includes("your_")) {
                 try {
                     await emailjs.sendForm(serviceID, autoReplyTemplateID, form, publicKey);
                 } catch (autoReplyErr) {
@@ -73,7 +98,7 @@ export function Contact() {
         } catch (error) {
             console.error("Submission error:", error);
             setStatus("error");
-            setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+            setErrorMessage(error instanceof Error ? error.message : "Something went wrong while sending your message. Please try again or email us directly at Ksjenterprises16@gmail.com");
         } finally {
             setIsLoading(false);
         }
