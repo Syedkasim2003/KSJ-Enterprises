@@ -19,10 +19,10 @@ export function Contact() {
         const form = e.currentTarget;
 
         try {
-            const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-            const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-            const autoReplyTemplateID = process.env.NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID;
-            const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+            const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_9kb20ip";
+            const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_4ct6576";
+            const autoReplyTemplateID = process.env.NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID || "template_j9ic0gh";
+            const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "Y2bjkskk5D-mfbAUO";
 
             const isConfigured = 
                 serviceID && 
@@ -33,9 +33,7 @@ export function Contact() {
                 !publicKey.includes("your_");
 
             if (!isConfigured) {
-                throw new Error(
-                    "EmailJS keys are missing or unconfigured in .env.local. Please add your NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID, and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY."
-                );
+                throw new Error("EmailJS service credentials could not be loaded. Please try again.");
             }
 
             // Dynamically load EmailJS from CDN if not already loaded
