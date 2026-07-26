@@ -33,24 +33,9 @@ export function Contact() {
                 !publicKey.includes("your_");
 
             if (!isConfigured) {
-                console.warn("EmailJS keys missing or placeholder in env. Using direct email fallback.");
-                
-                const formData = new FormData(form);
-                const name = formData.get("name") as string;
-                const phone = formData.get("phone") as string;
-                const email = formData.get("email") as string;
-                const message = formData.get("message") as string;
-
-                const mailtoSubject = encodeURIComponent(`Contact Inquiry from ${name}`);
-                const mailtoBody = encodeURIComponent(
-                    `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\n\nMessage:\n${message}`
+                throw new Error(
+                    "EmailJS keys are missing or unconfigured in .env.local. Please add your NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID, and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY."
                 );
-
-                window.location.href = `mailto:Ksjenterprises16@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
-                
-                setStatus("success");
-                form.reset();
-                return;
             }
 
             // Dynamically load EmailJS from CDN if not already loaded
