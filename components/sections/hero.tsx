@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { getAssetUrl } from "@/lib/utils";
 
 export function Hero() {
     return (
@@ -72,8 +73,11 @@ export function Hero() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="relative lg:h-[500px] w-full bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl overflow-hidden border border-slate-200 shadow-xl flex items-center justify-center"
                     >
-                        {/* Placeholder for actual hero image */}
-                        <div className="absolute inset-0 bg-[url('/images/hero-bg.png')] bg-cover bg-center opacity-90 hover:scale-105 transition-transform duration-700" />
+                        {/* Background hero image */}
+                        <div
+                            className="absolute inset-0 bg-cover bg-center opacity-90 hover:scale-105 transition-transform duration-700"
+                            style={{ backgroundImage: `url('${getAssetUrl("/images/hero-bg.png")}')` }}
+                        />
                         <div className="relative bg-white/90 backdrop-blur-sm p-6 rounded-lg shadow-lg max-w-xs mx-auto text-center border border-slate-100">
                             <div className="font-bold text-slate-900 text-lg">Trusted Plumbing Solutions</div>
                             <p className="text-sm text-slate-500 mt-1">Supplying premium pipes, fittings & valves for residential, commercial & industrial projects.</p>

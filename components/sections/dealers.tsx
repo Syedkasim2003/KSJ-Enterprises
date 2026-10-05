@@ -2,16 +2,17 @@
 
 import { Section } from "@/components/ui/section";
 import { motion } from "framer-motion";
+import { getAssetUrl } from "@/lib/utils";
 
 const DEALERS = [
-    { name: "Ashirvad Pipes", image: "/images/dealers/ashirvad.png" },
-    { name: "Astral Pipes", image: "/images/dealers/astral.png" },
-    { name: "Parryware", image: "/images/dealers/parryware.png" },
-    { name: "Finolex Pipes", image: "/images/dealers/finolex.png" },
-    { name: "Grohe", image: "/images/dealers/grohe.png" },
-    { name: "Cera", image: "/images/dealers/cera.png" },
-    { name: "Jaquar", image: "/images/dealers/jaquar.png" },
-    { name: "Kohler", image: "/images/dealers/kohler.png" },
+    { name: "Ashirvad Pipes", image: getAssetUrl("/images/dealers/ashirvad.png") },
+    { name: "Astral Pipes", image: getAssetUrl("/images/dealers/astral.png") },
+    { name: "Parryware", image: getAssetUrl("/images/dealers/parryware.png") },
+    { name: "Finolex Pipes", image: getAssetUrl("/images/dealers/finolex.png") },
+    { name: "Grohe", image: getAssetUrl("/images/dealers/grohe.png") },
+    { name: "Cera", image: getAssetUrl("/images/dealers/cera.png") },
+    { name: "Jaquar", image: getAssetUrl("/images/dealers/jaquar.png") },
+    { name: "Kohler", image: getAssetUrl("/images/dealers/kohler.png") },
 ];
 
 export function Dealers() {

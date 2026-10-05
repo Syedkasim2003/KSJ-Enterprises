@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { getAssetUrl } from "@/lib/utils";
 
 export function Footer() {
     return (
@@ -10,7 +11,7 @@ export function Footer() {
                     <div className="space-y-4">
                         <div className="flex items-center gap-3">
                             <img
-                                src="/images/ksj-logo.png"
+                                src={getAssetUrl("/images/ksj-logo.png")}
                                 alt="KSJ Enterprises Logo"
                                 className="h-12 w-12 object-contain"
                             />

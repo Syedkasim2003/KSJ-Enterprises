@@ -4,7 +4,8 @@ import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Package } from "lucide-react";
 import { motion } from "framer-motion";
-import Link from "next/link"; // Added missing import
+import Link from "next/link";
+import { getAssetUrl } from "@/lib/utils";
 
 const PRODUCTS = [
     {
@@ -15,12 +16,12 @@ const PRODUCTS = [
     {
         title: "🚰 PVC & CPVC Pipes",
         description: "High-strength PVC and CPVC piping solutions for water supply, drainage, and industrial applications.",
-        image: "/images/pvc-cpvc-pipes.png"
+        image: getAssetUrl("/images/pvc-cpvc-pipes.png")
     },
     {
         title: "🧪 Waterproofing Materials",
         description: "Advanced waterproofing solutions to protect structures from leakage, dampness, and water damage.",
-        image: "/images/waterproofing.png"
+        image: getAssetUrl("/images/waterproofing.png")
     },
     {
         title: "🔩 Plumbing Valves & Fittings",

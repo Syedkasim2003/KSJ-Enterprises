@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Menu, X, Phone } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, getAssetUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const NAV_LINKS = [
@@ -40,7 +40,7 @@ export function Navbar() {
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-3">
                     <img
-                        src="/images/ksj-logo.png"
+                        src={getAssetUrl("/images/ksj-logo.png")}
                         alt="KSJ Enterprises Logo"
                         className="h-12 w-12 object-contain"
                     />

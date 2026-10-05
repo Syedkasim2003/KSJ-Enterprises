@@ -4,6 +4,7 @@ import { Section } from "@/components/ui/section";
 import { Quote } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getAssetUrl } from "@/lib/utils";
 
 const MESSAGES = [
     {
@@ -11,14 +12,14 @@ const MESSAGES = [
         title: "Founder & CEO",
         organization: "KSJ Groups, Madurai",
         message: "Our mission is simple: to deliver excellence in everything we do. We don't just sell products; we build partnerships that empower businesses to thrive in a competitive world.",
-        image: "/images/founder.jpg"
+        image: getAssetUrl("/images/founder.jpg")
     },
     {
         name: "Lion. S. Jeenath Begum",
         title: "Proprietor",
         organization: "KSJ Enterprises, Madurai",
         message: "At KSJ Enterprises, we are committed to delivering reliable sanitary and plumbing products that ensure long-lasting performance. Quality, trust, and customer satisfaction remain at the core of everything we do.",
-        image: "/images/proprietor.jpg"
+        image: getAssetUrl("/images/proprietor.jpg")
     }
 ];
 
